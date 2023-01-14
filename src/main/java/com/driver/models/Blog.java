@@ -55,4 +55,24 @@ public class Blog{
     public void setImageList(List<Image> imageList) {
         ImageList = imageList;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public Date getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
