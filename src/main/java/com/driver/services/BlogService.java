@@ -66,6 +66,10 @@ public class BlogService {
             if(image.getDescription().equals(description) && image.getDimensions().equals(dimensions)){
                 image.setDescription(description);
                 image.setDimensions(dimensions);
+                int id=image.getId();
+                Image update=imageRepository.findById(id).get();
+                update.setDescription(description);
+                update.setDimensions(dimensions);
             }
         }
 
