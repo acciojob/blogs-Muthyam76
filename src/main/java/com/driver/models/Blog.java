@@ -1,6 +1,7 @@
 package com.driver.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class Blog{
     @JoinColumn
     private User user;
     @OneToMany(mappedBy = "blog", cascade=CascadeType.ALL)
-    private List<Image> ImageList;
+    private List<Image> ImageList=new ArrayList<>();
 
     public List<Image> getImageList() {
         return ImageList;
