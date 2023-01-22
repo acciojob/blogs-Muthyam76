@@ -34,21 +34,23 @@ public class BlogService {
     }
 
     public void createAndReturnBlog(Integer userId, String title, String content) {
+        //create a blog at the current time
         Blog b=new Blog();
 
+        //updating the blog details
         b.setTitle(title);
         b.setContent(content);
+        b.setPubDate(new Date());
         User u=userRepository1.findById(userId).get();
+        b.setUser(u);
+
+
+        //Updating the userInformation and changing its blogs
         List<Blog>totalBlogs=u.getBlogList();
         totalBlogs.add(b);
         u.setBlogList(totalBlogs);
         userRepository1.save(u);
-        blogRepository1.save(b);
-        //create a blog at the current time
 
-        //updating the blog details
-
-        //Updating the userInformation and changing its blogs
 
     }
 
@@ -61,17 +63,13 @@ public class BlogService {
     public void addImage(Integer blogId, String description, String dimensions){
         //add an image to the blog after creating it
         Blog b=blogRepository1.findById(blogId).get();
+        Image image=imageService1.createAndReturn(b,description,dimensions);
         List<Image>i=b.getImageList();
-        for(Image image : i){
-            if(image.getDescription().equals(description) && image.getDimensions().equals(dimensions)){
-                image.setDescription(description);
-                image.setDimensions(dimensions);
-                int id=image.getId();
-                Image update=imageRepository.findById(id).get();
-                update.setDescription(description);
-                update.setDimensions(dimensions);
-            }
-        }
+        List<Image>imageList=b.getImageList();
+        imageList.add(image);
+        b.setImageList(imageList);
+        blogRepository1.save(b);
+
 
 
     }
@@ -79,10 +77,8 @@ public class BlogService {
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
         Blog b=blogRepository1.findById(blogId).get();
-        List<Image>i=b.getImageList();
-        for(Image image : i){
-            imageRepository.delete(image);
+        if(b!=null){
+            blogRepository1.delete(b);
         }
-        blogRepository1.deleteById(blogId);
     }
 }
